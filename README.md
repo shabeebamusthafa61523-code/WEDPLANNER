@@ -129,35 +129,62 @@ Because `vite.config.js` is configured with `host: true`:
 
 ---
 
-## Deployment Instructions
+## Deployment Guide (Render Backend + Vercel Frontend)
 
-### Option A: Single-Service Full Stack (Render / Railway)
-
-Because `backend/server.js` serves the frontend's static build from `frontend/dist`:
-
-1. Build the frontend:
+### Step 1: Push Your Code to GitHub
+1. Create a new repository on [GitHub](https://github.com) (e.g. `wedding-guest-counter`).
+2. Run these commands in your project terminal:
    ```bash
-   cd frontend
-   npm run build
+   git remote add origin https://github.com/<your-username>/<your-repo-name>.git
+   git branch -M main
+   git push -u origin main
    ```
-2. In your cloud provider (e.g. [Render](https://render.com) or [Railway](https://railway.app)):
-   - **Build Command**:
-     ```bash
-     cd frontend && npm install && npm run build && cd ../backend && npm install
-     ```
-   - **Start Command**:
-     ```bash
-     node backend/server.js
-     ```
-   - **Environment Variables**:
-     - `PORT`: `5001` (or provided by host)
-     - `MONGODB_URI`: your MongoDB Atlas connection string (e.g. `mongodb+srv://<user>:<password>@cluster0.xxx.mongodb.net/wedding_guest_counter?retryWrites=true&w=majority`)
-3. The deployed web app URL will serve both the frontend and the backend API from a single domain.
 
-### Option B: Separate Frontend & Backend (Vercel + Render)
+---
 
-1. **Deploy Backend to Render / Railway**:
-   - Set `MONGODB_URI` to your MongoDB Atlas connection string.
+### Step 2: Deploy Backend to Render
+
+1. Log in to [Render.com](https://dashboard.render.com).
+2. Click **New +** > **Web Service**.
+3. Connect your GitHub repository.
+4. Configure the service settings:
+   - **Name**: `wedding-guest-api` (or any name you choose)
+   - **Language**: `Node`
+   - **Branch**: `main`
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install`
+   - **Start Command**: `node server.js` (or `npm start`)
+   - **Instance Type**: `Free`
+5. Scroll down to **Environment Variables** and add:
+   - `PORT`: `5001`
+   - `MONGODB_URI`: `mongodb+srv://shabeeba:9995982324@cluster0.i23tzbf.mongodb.net/wedplanner?appName=Cluster0`
+6. Click **Deploy Web Service**.
+7. Once deployed, copy your Render backend URL (e.g., `https://wedding-guest-api.onrender.com`).
+   - You can test it by visiting `https://wedding-guest-api.onrender.com/api/health` in your browser.
+
+---
+
+### Step 3: Deploy Frontend to Vercel
+
+1. Log in to [Vercel.com](https://vercel.com).
+2. Click **Add New...** > **Project**.
+3. Import your GitHub repository.
+4. In the **Configure Project** screen:
+   - **Framework Preset**: `Vite` (automatically detected)
+   - **Root Directory**: click **Edit** and select `frontend`
+   - **Build Command**: `vite build` (default)
+   - **Output Directory**: `dist` (default)
+5. Expand **Environment Variables** and add:
+   - **Key**: `VITE_API_BASE_URL`
+   - **Value**: `https://wedding-guest-api.onrender.com` *(paste your Render backend URL from Step 2, without a trailing slash)*
+6. Click **Deploy**.
+
+---
+
+### Step 4: Share Your Wedding Link!
+
+- When Vercel finishes deploying (usually ~30 seconds), click on your live production URL (e.g. `https://wedding-guest-counter.vercel.app`).
+- Multiple family members can now open this link from any phone or computer worldwide to view, add, search, and update wedding guests in real-time!
    - Note your deployed backend URL: `https://my-wedding-api.onrender.com`.
 2. **Deploy Frontend to Vercel**:
    - Set root directory to `frontend`.
