@@ -249,6 +249,128 @@ body {
   margin-top: 6px;
 }
 
+/* WhatsApp Sharing Card */
+.whatsapp-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.whatsapp-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #25d366, #128c7e);
+}
+
+.whatsapp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.whatsapp-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.whatsapp-icon-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e7f8ee;
+  color: #25d366;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.whatsapp-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.whatsapp-subtitle {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.whatsapp-preview-box {
+  background: var(--bg-primary);
+  border: 1px dashed var(--gold-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  margin-bottom: 16px;
+  font-family: var(--font-sans);
+  position: relative;
+}
+
+.whatsapp-preview-tag {
+  position: absolute;
+  top: -10px;
+  right: 14px;
+  background: var(--gold-light);
+  border: 1px solid var(--gold-border);
+  color: var(--gold-dark);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.whatsapp-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-whatsapp {
+  background-color: #25d366;
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
+}
+
+.btn-whatsapp:hover {
+  background-color: #1ebc59;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+}
+
 /* Sections */
 .section-card {
   background: var(--bg-surface);

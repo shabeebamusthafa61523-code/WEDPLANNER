@@ -270,6 +270,35 @@ export default function App() {
     showToast('Wedding link copied to clipboard!');
   };
 
+  // Generate formatted WhatsApp message
+  const getWhatsAppMessage = () => {
+    const appUrl = window.location.href;
+    const sender = memberName.trim() ? `— Shared by ${memberName.trim()}` : '';
+    return (
+      `💍 *Wedding Guest List Update*\n\n` +
+      `👥 *Total Guests:* ${totalGuests}\n` +
+      `🏡 *Total Families / Houses:* ${totalHouses}\n\n` +
+      `Please check or add your family details using this link:\n` +
+      `👉 ${appUrl}` +
+      (sender ? `\n\n_${sender}_` : '')
+    );
+  };
+
+  // Share directly via WhatsApp
+  const handleShareWhatsApp = () => {
+    const text = getWhatsAppMessage();
+    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    showToast('Opening WhatsApp...');
+  };
+
+  // Copy WhatsApp message to clipboard
+  const handleCopyWhatsAppMessage = () => {
+    const text = getWhatsAppMessage();
+    navigator.clipboard.writeText(text);
+    showToast('WhatsApp message copied to clipboard!');
+  };
+
   return (
     <div className="app-container">
       {/* Toast Notification */}
@@ -388,6 +417,58 @@ export default function App() {
           <div className="stat-detail">
             {totalHouses === 1 ? '1 family registered' : `${totalHouses} families registered`}
           </div>
+        </div>
+      </section>
+
+      {/* WhatsApp Sharing Card */}
+      <section className="whatsapp-card">
+        <div className="whatsapp-header">
+          <div className="whatsapp-title-group">
+            <div className="whatsapp-icon-badge" title="WhatsApp">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.98-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.24-.75-.67-1.26-1.49-1.4-1.74-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.1-.23-.17-.48-.3z"/>
+              </svg>
+            </div>
+            <div>
+              <h2 className="whatsapp-title">Share Guest List on WhatsApp</h2>
+              <p className="whatsapp-subtitle">Share real-time counts and access link directly to family WhatsApp chats</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="whatsapp-preview-box">
+          <span className="whatsapp-preview-tag">Message Preview</span>
+          <div>💍 <strong>Wedding Guest List Update</strong></div>
+          <div style={{ marginTop: '4px' }}>👥 <strong>Total Guests:</strong> {totalGuests}</div>
+          <div>🏡 <strong>Total Families / Houses:</strong> {totalHouses}</div>
+          <div style={{ marginTop: '8px', color: 'var(--text-secondary)' }}>
+            Please check or add your family details using this link:
+          </div>
+          <div style={{ wordBreak: 'break-all', color: 'var(--gold-dark)', fontWeight: 600, marginTop: '2px' }}>
+            {window.location.href}
+          </div>
+          {memberName.trim() && (
+            <div style={{ marginTop: '8px', fontStyle: 'italic', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+              — Shared by {memberName.trim()}
+            </div>
+          )}
+        </div>
+
+        <div className="whatsapp-actions">
+          <button type="button" className="btn-whatsapp" onClick={handleShareWhatsApp}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.98-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.24-.75-.67-1.26-1.49-1.4-1.74-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.54.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.07-.1-.23-.17-.48-.3z"/>
+            </svg>
+            Share on WhatsApp
+          </button>
+
+          <button type="button" className="btn-secondary" onClick={handleCopyWhatsAppMessage}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            Copy WhatsApp Text
+          </button>
         </div>
       </section>
 
