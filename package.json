@@ -1,0 +1,14 @@
+{
+  "name": "wedding-guest-counter",
+  "version": "1.0.0",
+  "description": "Simple Wedding Guest Counter built with MERN stack",
+  "scripts": {
+    "start": "node backend/server.js",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build"
+  },
+  "keywords": ["mern", "wedding", "guest-counter", "react", "express", "mongodb"],
+  "author": "",
+  "license": "ISC"
+}
